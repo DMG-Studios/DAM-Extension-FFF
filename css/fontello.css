@@ -1,27 +1,17 @@
 @font-face {
-  font-family: 'poll';
-  src: url('../font/poll.eot?58886023');
-  src: url('../font/poll.eot?58886023#iefix') format('embedded-opentype'),
-       url('../font/poll.woff2?58886023') format('woff2'),
-       url('../font/poll.woff?58886023') format('woff'),
-       url('../font/poll.ttf?58886023') format('truetype'),
-       url('../font/poll.svg?58886023#poll') format('svg');
+  font-family: 'fontello';
+  src: url('../font/fontello.eot?26394744');
+  src: url('../font/fontello.eot?26394744#iefix') format('embedded-opentype'),
+       url('../font/fontello.woff2?26394744') format('woff2'),
+       url('../font/fontello.woff?26394744') format('woff'),
+       url('../font/fontello.ttf?26394744') format('truetype'),
+       url('../font/fontello.svg?26394744#fontello') format('svg');
   font-weight: normal;
   font-style: normal;
 }
-/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
-/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
-/*
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-  @font-face {
-    font-family: 'poll';
-    src: url('../font/poll.svg?58886023#poll') format('svg');
-  }
-}
-*/
  
  [class^="icon-"]:before, [class*=" icon-"]:before {
-  font-family: "poll";
+  font-family: "fontello";
   font-style: normal;
   font-weight: normal;
   speak: never;
@@ -55,14 +45,13 @@
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
  
-.icon-book:before { content: '\e800'; } /* '' */
-.icon-book-open:before { content: '\e801'; } /* '' */
-.icon-cog:before { content: '\e802'; } /* '' */
-.icon-params:before { content: '\e803'; } /* '' */
-.icon-calendar:before { content: '\e804'; } /* '' */
-.icon-globe:before { content: '\e805'; } /* '' */
-.icon-mail:before { content: '\e806'; } /* '' */
-.icon-book-1:before { content: '\e807'; } /* '' */
+.icon-params:before { content: '\e800'; } /* '' */
+.icon-calendar:before { content: '\e801'; } /* '' */
+.icon-pencil:before { content: '\e802'; } /* '' */
+.icon-mail:before { content: '\e803'; } /* '' */
+.icon-book:before { content: '\e804'; } /* '' */
+.icon-book-1:before { content: '\e805'; } /* '' */
+.icon-cog:before { content: '\e806'; } /* '' */
 .icon-emo-cry:before { content: '\e80f'; } /* '' */
 .icon-food:before { content: '\f0f5'; } /* '' */
 .icon-building:before { content: '\f0f7'; } /* '' */
