@@ -24,6 +24,13 @@ function getLinks() {
     }
 }
 
+function closeLink() {
+    setTimeout(() => {
+        window.close();
+    }, 200); 
+}
+
+
 var food;
 var menuList = [];
 function getFood() {
@@ -59,9 +66,6 @@ function fillFood() {
     });
 }
 
-function closeLink() {
-    window.close();
-}
 
 function showLunch() {
     if (this.id == "today") {
