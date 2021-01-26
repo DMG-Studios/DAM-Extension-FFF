@@ -1,9 +1,9 @@
 body {
     width: 96%;
     height: 100%;
-    background-color: rgb(0,88,163);
+    background-color: rgb(0, 88, 163);
     background-image: url("dam_200.png");
-    background-position: center top 80px;
+    background-position: center top 150px;
     background-repeat: no-repeat;
 }
 
@@ -20,9 +20,10 @@ a:hover {
     color: turquoise;
 }
 
-h1{
-    margin:0;
+h1 {
+    margin: 0;
 }
+
 #titleholder {
     display: flex;
     flex-direction: column;
@@ -30,8 +31,9 @@ h1{
     align-items: center;
 }
 
-h1{
+h1 {
     margin: 0;
+    font-size: large;
 }
 
 .title {
@@ -44,6 +46,31 @@ h1{
     background-color: #0058a3;
 }
 
+#nextCalendar {
+    text-align: center;
+    color: whitesmoke;
+    background: transparent;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: #0058a3;
+}
+
+#nextCal {
+    font-size: medium;
+}
+
+#nextTime {
+    font-size: small;
+}
+
+#nextComment {
+    font-size: small;
+}
+
+#nextLink {
+    font-size: medium;
+}
+
 h3 {
     text-align: left;
     margin: 7px;
@@ -54,20 +81,20 @@ h3 {
 }
 
 .linkholder {
-    background-color: rgba(0,88,163,0.76);
+    background-color: rgba(0, 88, 163, 0.76);
     margin-top: 5px;
     display: flex;
     justify-content: space-around;
 }
 
-#toLunch{
+#toLunch {
     display: flex;
     justify-content: space-evenly;
     font-size: medium;
     color: white;
 }
 
-#content{
+#content {
     display: flex;
     justify-content: center;
     text-align: center;
@@ -77,12 +104,13 @@ h3 {
     color: white;
 }
 
-#food{
+#food {
     display: none;
     margin: 10px 0px 10px 0px;
     width: 360px;
 }
-.lunchbutton{
+
+.lunchbutton {
     cursor: pointer;
     padding: 4px;
     border: 1px solid #226fbe;
@@ -90,16 +118,16 @@ h3 {
     animation: nolunchbuttonHover 0.3s linear;
 }
 
-.lunchbutton:hover{
+.lunchbutton:hover {
     animation: lunchbuttonHover 0.3s linear;
     background-color: darkblue;
 }
 
-@keyframes lunchbuttonHover{
-    0%{
+@keyframes lunchbuttonHover {
+    0% {
         background-color: #0058a3;
     }
-    100%{
+    100% {
         background-color: darkblue;
     }
 }
@@ -112,6 +140,7 @@ h3 {
         background-color: #0058a3;
     }
 }
+
 .linkholder div {
     display: flex;
     flex-direction: column;
@@ -119,43 +148,46 @@ h3 {
     align-items: left;
 }
 
-.news{
+.news {
     display: flex;
     flex-direction: column;
     align-items: center;
     font-size: medium;
     color: white;
 }
-#today{
+
+#today {
     font-size: normal;
     margin-right: 0;
 }
-h4{
+
+h4 {
     margin: 10px 10px 10px 10px;
 }
-#latest{
+
+#latest {
     width: 360px;
     word-wrap: break-word;
     margin: 12px 10px 12px 10px;
     text-align: center;
- 
 }
-
 
 .credits {
     text-align: center;
     color: grey;
 }
-.credits a{
+
+.credits a {
     animation: none;
     color: darkgrey;
 }
+
 @keyframes hoverAnim {
     0% {
         color: snow;
     }
     100% {
-        color:turquoise;
+        color: turquoise;
     }
 }
 

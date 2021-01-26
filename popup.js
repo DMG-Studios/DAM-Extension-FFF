@@ -8,6 +8,10 @@ element.textContent = today;
 var divList = document.getElementsByClassName("lunchbutton");
 var content = document.getElementById("food");
 
+
+// Set calendar END // 
+
+
 function attachClickEvent() {
     var listLength = divList.length;
     for (var i = 0; i < listLength; i++) {
@@ -49,7 +53,6 @@ function callFood(r) {
 function fillFood() {
 
     var menus = food.MenusForDays;
-    console.group(food);
     Object.keys(menus).forEach(function (k) {
         let menudate = new Date(menus[k].Date.substring(0, 10));
         if (menudate.toISOString() == date.toISOString()) {
