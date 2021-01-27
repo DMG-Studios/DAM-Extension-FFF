@@ -5,6 +5,7 @@ body {
     background-image: url("dam_200.png");
     background-position: center top 150px;
     background-repeat: no-repeat;
+    font-family: 'Rubik', sans-serif;
 }
 
 a {
@@ -20,14 +21,39 @@ a:hover {
     color: turquoise;
 }
 
-
 #titleholder {
+    position: relative;
+    width: 360px;
     margin: 0;
     padding: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+#nextNoti {
+    position: absolute;
+    color: white;
+    text-decoration: underline;
+    left: 10px;
+    top: 0px;
+    margin: 0;
+    padding: 0;
+}
+
+#newsSection {
+    position: relative;
+}
+
+#newsNoti {
+    position: absolute;
+    color: white;
+    text-decoration: underline;
+    left: 10px;
+    top: 0px;
+    margin: 0;
+    padding: 0;
 }
 
 h1 {
@@ -56,7 +82,7 @@ h1 {
 }
 
 #nextCal {
-    margin:0px;
+    margin: 0px;
     padding: 0px;
     font-size: medium;
 }
@@ -159,6 +185,7 @@ h3 {
     flex-direction: column;
     align-items: center;
     font-size: medium;
+    padding-top: 10px;
     color: white;
 }
 
@@ -167,14 +194,23 @@ h3 {
     margin-right: 0;
 }
 
-.news h4{
-    margin: 5px;
+.news h4 {
+    margin: 0px;
+    padding: 0px;
 }
 
 #latest {
     width: 360px;
+    padding: 0;
+    margin: 0;
     word-wrap: break-word;
-    margin: 12px 10px 12px 10px;
+    text-align: center;
+}
+
+#newsBody {
+    width: 360px;
+    word-wrap: break-word;
+    margin: 5px;
     text-align: center;
 }
 
