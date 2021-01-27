@@ -1,6 +1,6 @@
 body {
     width: 96%;
-    height: 100%;
+    height: 96%;
     background-color: rgb(0, 88, 163);
     background-image: url("dam_200.png");
     background-position: center top 150px;
@@ -20,11 +20,10 @@ a:hover {
     color: turquoise;
 }
 
-h1 {
-    margin: 0;
-}
 
 #titleholder {
+    margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -50,24 +49,31 @@ h1 {
     text-align: center;
     color: whitesmoke;
     background: transparent;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    width: 375px;
     background-color: #0058a3;
 }
 
 #nextCal {
+    margin:0px;
+    padding: 0px;
     font-size: medium;
 }
 
 #nextTime {
-    font-size: small;
+    padding: 0px;
+    font-size: normal;
 }
 
 #nextComment {
+    word-wrap: break-word;
+    padding: 0px;
     font-size: small;
 }
 
 #nextLink {
+    padding: 0px;
     font-size: medium;
 }
 
@@ -107,7 +113,7 @@ h3 {
 #food {
     display: none;
     margin: 10px 0px 10px 0px;
-    width: 360px;
+    width: 375px;
 }
 
 .lunchbutton {
@@ -161,8 +167,8 @@ h3 {
     margin-right: 0;
 }
 
-h4 {
-    margin: 10px 10px 10px 10px;
+.news h4{
+    margin: 5px;
 }
 
 #latest {
