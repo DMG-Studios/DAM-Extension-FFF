@@ -1,6 +1,5 @@
 
-/// Get Calendar next up // 
-
+/// Content JS for Calendar next up and News API Connections // 
 
 let nextCalendar = document.getElementById("nextCal");
 let nextCalendarTime = document.getElementById("nextTime");
@@ -8,32 +7,58 @@ let nextCalendarComment = document.getElementById("nextComment");
 let nextCalendarLink = document.getElementById("nextLink");
 
 let arbsHash;
+let fetchLink;
+
+// Get arbs hash set in options // 
 
 function GetHash() {
-  
+
     function setCurrentChoice(result) {
-      arbsHash = result.arbs || "default";
+        arbsHash = result.arbs || "default";
     }
-  
+
     function onError(error) {
-      console.log(`Error: ${error}`);
+        console.log(`Error: ${error}`);
     }
-  
+
     let getting = browser.storage.sync.get("arbs");
     getting.then(setCurrentChoice, onError);
 }
-GetNextEvent(GetHash());
 
+// Call Get hash //
+
+GetHash();
+
+
+// Timeout so app has time to fetch before creating calendar view, this should be implemented into background.js for future reference. // 
+
+setTimeout(() => {
+
+    // Set Fetch link composed of api address and your ARBS link // 
+    fetchLink = 'https://api.cornern.tlk.fi/dam-api/calendar?link=' + arbsHash;
+    GetNextEvent();
+    // GetNews();
+    console.log(fetchLink);
+
+}, 100);
+
+
+// Options for showing time without seconds // 
 
 let dOpt = {
-    hour:   '2-digit',
+    hour: '2-digit',
     minute: '2-digit',
 }
 
-function GetNextEvent(hash){
+
+
+// Function to fetch and parse response from calendar api // 
+
+function GetNextEvent() {
     let calendarEvents;
+    // Sub function for fetching // 
     function getCalendar() {
-        fetch("calendar.json")
+        fetch(fetchLink)
             .then((r) => r.json())
             .then((r) => {
                 callCalendar(r);
@@ -41,39 +66,88 @@ function GetNextEvent(hash){
     }
     function callCalendar(r) {
         calendarEvents = r;
+        fillCalendar();
     }
 
     getCalendar();
     
- 
-    nextCalendar.textContent = " Test "
-    setTimeout(() => {
-        let nextEventName = calendarEvents[0].name;
-        let nextEventComment = calendarEvents[0].comment;
-        let nextEventStart = calendarEvents[0].startTime;
-        let nextEventEnd = calendarEvents[0].endTime;
-        let nextEventRoom = calendarEvents[0].room;
-        let nextLink = nextEventComment.split(/(https?:\/\/[^\s]+)/g);
-        let link; 
-        let comment;
+    function fillCalendar() {
+            console.log(calendarEvents);
 
+            // Check that CalendarEvents have been fetched before populating, else proceed with error message // 
+            if (calendarEvents) {
 
-        nextLink.forEach(element => {
-            if(element.includes('http')){
-                link = element;
-            }else if(element.length > 1){
-                comment = element;
+                let nextEventName = calendarEvents[0].name;
+                let nextEventComment = calendarEvents[0].comment;
+                let nextEventStart = calendarEvents[0].startTime;
+                let nextEventEnd = calendarEvents[0].endTime;
+                let nextEventRoom = calendarEvents[0].room;
+
+                // Regexp incomming comment for a http/s link to append to Link to lecture // 
+
+                let nextLink = nextEventComment.split(/(https?:\/\/[^\s]+)/g);
+
+                // Variables to split comment into link and commentEntry // 
+
+                let link;
+                let comment;
+
+                // Forloop to assing link and comment // 
+                nextLink.forEach(element => {
+                    if (element.includes('http')) {
+                        link = element;
+                    } else if (element.length > 1) {
+                        comment = element;
+                    }
+                });
+
+                // If no room is booked assign to online // 
+
+                if (nextEventRoom == "") {
+                    nextEventRoom = "Online";
+                }
+
+                // Assign event name and room to Calendar frame header //
+                nextCalendar.textContent = nextEventName + " @ " + nextEventRoom;
+
+                // Assign time, comment and link to calendar frame // 
+                nextCalendarTime.textContent = new Date(nextEventStart).toLocaleDateString('fi-FI',) + " " + new Date(nextEventStart).toLocaleTimeString('en-GB', dOpt) + " - " + new Date(nextEventEnd).toLocaleTimeString('en-GB', dOpt);
+                nextCalendarComment.textContent = comment;
+                nextCalendarLink.href = link;
+
+                // if there wasn't a response assign error message // 
+            } else {
+                nextCalendarComment.textContent = "Something wen't horribly wrong. Atleast 5 highly trained tölks have been assigned to fix this"
+                nextCalendarLink.href = "www.dinmamma.fi"
+                nextCalendarLink.textContent = "DMG Studios Appologizes"
             }
-        });
-        if(nextEventRoom == ""){
-            nextEventRoom = "Online";
+    }
+}
+// Get news from api //
+
+function GetNews() {
+    let news;
+    function getNewsArticle() {
+        fetch('https://api.cornern.tlk.fi/dam-api/news')
+            .then((r) => r.json())
+            .then((r) => {
+                callNews(r);
+            });
+    }
+    function callNews(r) {
+        news = r;
+        fillNews();
+    }
+
+    getNewsArticle();
+
+    // Timeout to be sure that news has been fetched and check population before proceeding //
+
+    function fillNews(){
+        if (news) {
+            document.getElementById('latest').textContent = news;
+        } else {
+            document.getElementById('latest').textContent = "Couldn't fetch news, we are sorry and working on a fix";
         }
-        nextCalendar.titel = nextEventComment;
-        nextCalendar.textContent = nextEventName + " @ " + nextEventRoom;
-        nextCalendarTime.textContent = new Date(nextEventStart).toLocaleDateString('fi-FI',) + " "+ new Date(nextEventStart).toLocaleTimeString('en-GB',dOpt) + " - " + new Date(nextEventEnd).toLocaleTimeString('en-GB', dOpt);
-
-        nextCalendarComment.textContent = comment;
-        nextCalendarLink.href = link;
-
-    }, 200);
+    }
 }
