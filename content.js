@@ -15,6 +15,7 @@ function GetHash() {
 
     function setCurrentChoice(result) {
         arbsHash = result.arbs || "default";
+        call();
     }
 
     function onError(error) {
@@ -29,17 +30,14 @@ function GetHash() {
 
 GetHash();
 
-// Timeout so app has time to fetch before creating calendar view, this should be implemented into background.js for future reference. // 
-
-setTimeout(() => {
-
-    // Set Fetch link composed of api address and your ARBS link // 
+// Set Fetch link composed of api address and your ARBS link // 
+function call() {
     fetchLink = 'https://api.cornern.tlk.fi/dam-api/calendar?link=' + arbsHash;
     GetNextEvent();
     GetNews();
+}
 
 
-}, 100);
 
 // Options for showing time without seconds // 
 
@@ -68,8 +66,6 @@ function GetNextEvent() {
     getCalendar();
 
     function fillCalendar() {
-        console.log(calendarEvents);
-
         // Check that CalendarEvents have been fetched before populating, else proceed with error message // 
         if (calendarEvents) {
 
@@ -135,21 +131,32 @@ function GetNews() {
     }
     function callNews(r) {
         news = r;
-        fillNews();
+       // fillNews();
+        updateNews(news[0]);
+        loopNews();
     }
 
     getNewsArticle();
+ 
+    var x = 0
 
-
-    function fillNews() {
+    // Function to loop news indefinetly // 
+    function loopNews() {
+        
         if (news) {
-            let newsShort = news[0].body.substr(0, 150) ;
-            newsShort = newsShort. substring(0, newsShort. lastIndexOf(" ")) + "\u2026";
-            latest.textContent = news[0].heading;
-            newsLink.href = news[0].link
-            newsBody.textContent = newsShort;
+            setInterval(() => {
+                updateNews(news[x]);
+                x = x < Object.keys(news).length-1? x+1 : 0;
+            }, 7000);
         } else {
             latest.textContent = "Couldn't fetch news, we are sorry and working on a fix";
         }
     }
+
+    function updateNews(newsItem) {
+        latest.textContent = newsItem.heading;
+        newsBody.textContent = newsItem.body.substr(0, 150).substr(0, newsItem.body.substr(0, 150).lastIndexOf(" ")) + "\u2026";
+        newsLink.href = newsItem.link;
+    }
+
 }

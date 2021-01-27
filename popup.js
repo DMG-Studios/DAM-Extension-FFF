@@ -31,7 +31,7 @@ function getLinks() {
 function closeLink() {
     setTimeout(() => {
         window.close();
-    }, 200); 
+    }, 100); 
 }
 
 
