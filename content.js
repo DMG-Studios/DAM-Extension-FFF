@@ -82,6 +82,7 @@ function GetNextEvent() {
             // Variables to split comment into link and commentEntry // 
 
             let link;
+            
             let comment;
 
             // Forloop to assing link and comment // 
@@ -92,7 +93,9 @@ function GetNextEvent() {
                     comment = element;
                 }
             });
-
+            if(link == undefined){
+                link = "https://famnen.arcada.fi/arbs/"
+            }
             // If no room is booked assign to online // 
 
             if (nextEventRoom == "") {
@@ -103,7 +106,11 @@ function GetNextEvent() {
             nextCalendar.textContent = nextEventName + " @ " + nextEventRoom;
 
             // Assign time, comment and link to calendar frame // 
-            nextCalendarTime.textContent = new Date(nextEventStart).toLocaleDateString('fi-FI',) + " " + new Date(nextEventStart).toLocaleTimeString('en-GB', dOpt) + " - " + new Date(nextEventEnd).toLocaleTimeString('en-GB', dOpt);
+            if (nextEventStart.length == 8) {
+                nextCalendarTime.textContent = new Date(0,0,0,nextEventStart.substr(0,2),nextEventStart.substr(3,2),0).toLocaleTimeString('fi-Fi') + " - " + new Date(0,0,0,nextEventEnd.substr(0,2),nextEventEnd.substr(3,2),0).toLocaleTimeString('fi-Fi')
+            } else {
+                nextCalendarTime.textContent = new Date(nextEventStart).toLocaleDateString('fi-FI',) + " " + new Date(nextEventStart).toLocaleTimeString('fi-FI', dOpt) + " - " + new Date(nextEventEnd).toLocaleTimeString('fi-FI', dOpt);
+            }
             nextCalendarComment.textContent = comment;
             nextCalendarLink.href = link;
 
@@ -131,22 +138,22 @@ function GetNews() {
     }
     function callNews(r) {
         news = r;
-       // fillNews();
+        // fillNews();
         updateNews(news[0]);
         loopNews();
     }
 
     getNewsArticle();
- 
+
     var x = 0
 
     // Function to loop news indefinetly // 
     function loopNews() {
-        
+
         if (news) {
             setInterval(() => {
                 updateNews(news[x]);
-                x = x < Object.keys(news).length-1? x+1 : 0;
+                x = x < Object.keys(news).length - 1 ? x + 1 : 0;
             }, 7000);
         } else {
             latest.textContent = "Couldn't fetch news, we are sorry and working on a fix";

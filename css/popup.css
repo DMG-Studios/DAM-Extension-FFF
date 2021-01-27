@@ -1,7 +1,7 @@
 body {
     background-color: rgb(0, 88, 163);
-    background-image: url("dam_200.png");
-    background-position: center top 150px;
+    background-image: url("../dam_200.png");
+    background-position: center top 125px;
     background-repeat: no-repeat;
     font-family: 'Open Sans', sans-serif;
     overflow-x: hidden;
@@ -80,6 +80,7 @@ h1 {
     padding-left: 5px;
     padding-right: 5px;
     width: 375px;
+    margin: 5px;
     background-color: #0058a3;
 }
 
@@ -90,6 +91,7 @@ h1 {
 }
 
 #nextTime {
+    margin: 5px;
     padding: 0px;
     font-size: normal;
 }
@@ -97,10 +99,12 @@ h1 {
 #nextComment {
     word-wrap: break-word;
     padding: 0px;
+    margin: 5px;
     font-size: small;
 }
 
 #nextLink {
+    margin: 5px;
     padding: 0px;
     font-size: medium;
 }
