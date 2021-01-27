@@ -44,6 +44,9 @@ a:hover {
 }
 
 #newsSection {
+    padding: 0;
+    margin: 0;
+
     position: relative;
 }
 
@@ -53,7 +56,7 @@ a:hover {
     color: white;
     text-decoration: underline;
     left: 10px;
-    top: 0px;
+    top: -5px;
     margin: 0;
     padding: 0;
 }
