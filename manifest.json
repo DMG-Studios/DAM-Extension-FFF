@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Din Arcada Mamma",
-  "version": "0.3.3",
+  "version": "0.4",
   "browser_action": {
     "default_icon": "favicon-96x96.png",
     "default_popup": "popup.html"
@@ -13,7 +13,7 @@
   "permissions": ["storage"],
   "browser_specific_settings": {
     "gecko": {
-      "id": "dmg@dinmamma.fi"
+      "id": "dam-fff@dinmamma.fi"
     }
   },
 "icons": {
