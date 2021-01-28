@@ -1,13 +1,15 @@
 body {
     background-color: rgb(0, 88, 163);
-    background-image: url("../dam_200.png");
-    background-position: center top 125px;
-    background-repeat: no-repeat;
+
     font-family: 'Open Sans', sans-serif;
     overflow-x: hidden;
     scrollbar-width: thin;
 }
-
+#logoholder{
+    background-image: url("../dam_200.png");
+    background-position: center;
+    background-repeat: no-repeat;
+}
 a {
     font-size: medium;
     color: snow;
