@@ -8,8 +8,12 @@ element.textContent = today;
 var divList = document.getElementsByClassName("lunchbutton");
 var content = document.getElementById("food");
 
+var optionsLink = document.getElementById("settings");
+function settings(){
+    browser.runtime.openOptionsPage();
+}
+optionsLink.addEventListener("click", settings);
 
-// Set calendar END // 
 
 
 function attachClickEvent() {
@@ -18,6 +22,8 @@ function attachClickEvent() {
         divList[i].addEventListener("click", showLunch);
     }
 }
+
+// Add event listener to close addon when a link is clicked // 
 
 var links = document.getElementsByClassName("link");
 
@@ -33,7 +39,6 @@ function closeLink() {
         window.close();
     }, 100); 
 }
-
 
 var food;
 var menuList = [];

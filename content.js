@@ -82,7 +82,7 @@ function GetNextEvent() {
             // Variables to split comment into link and commentEntry // 
 
             let link;
-            
+
             let comment;
 
             // Forloop to assing link and comment // 
@@ -93,9 +93,13 @@ function GetNextEvent() {
                     comment = element;
                 }
             });
-            if(link == undefined){
+
+            // if result doesn't return a link set it to ARBS 
+            
+            if (link == undefined) {
                 link = "https://famnen.arcada.fi/arbs/"
             }
+            
             // If no room is booked assign to online // 
 
             if (nextEventRoom == "") {
@@ -107,7 +111,7 @@ function GetNextEvent() {
 
             // Assign time, comment and link to calendar frame // 
             if (nextEventStart.length == 8) {
-                nextCalendarTime.textContent = new Date(0,0,0,nextEventStart.substr(0,2),nextEventStart.substr(3,2),0).toLocaleTimeString('fi-Fi') + " - " + new Date(0,0,0,nextEventEnd.substr(0,2),nextEventEnd.substr(3,2),0).toLocaleTimeString('fi-Fi')
+                nextCalendarTime.textContent = new Date(0, 0, 0, nextEventStart.substr(0, 2), nextEventStart.substr(3, 2), 0).toLocaleTimeString('fi-Fi') + " - " + new Date(0, 0, 0, nextEventEnd.substr(0, 2), nextEventEnd.substr(3, 2), 0).toLocaleTimeString('fi-Fi')
             } else {
                 nextCalendarTime.textContent = new Date(nextEventStart).toLocaleDateString('fi-FI',) + " " + new Date(nextEventStart).toLocaleTimeString('fi-FI', dOpt) + " - " + new Date(nextEventEnd).toLocaleTimeString('fi-FI', dOpt);
             }
@@ -159,7 +163,6 @@ function GetNews() {
             latest.textContent = "Couldn't fetch news, we are sorry and working on a fix";
         }
     }
-
     function updateNews(newsItem) {
         latest.textContent = newsItem.heading;
         newsBody.textContent = newsItem.body.substr(0, 150).substr(0, newsItem.body.substr(0, 150).lastIndexOf(" ")) + "\u2026";
