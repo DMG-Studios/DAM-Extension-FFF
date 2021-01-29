@@ -9,7 +9,9 @@ var divList = document.getElementsByClassName("lunchbutton");
 var content = document.getElementById("food");
 
 var optionsLink = document.getElementById("settings");
-function settings(){
+var enabledLinks;
+
+function settings() {
     browser.runtime.openOptionsPage();
 }
 optionsLink.addEventListener("click", settings);
@@ -23,9 +25,46 @@ function attachClickEvent() {
     }
 }
 
+function GetLinkList() {
+
+    function setCurrentChoice(result) {
+        enabledLinks = result.enabledLinks || "default";
+        enableLinks();
+    }
+
+    function onError(error) {
+        console.log(`Error: ${error}`);
+    }
+
+    let getting = browser.storage.sync.get("enabledLinks");
+    getting.then(setCurrentChoice, onError);
+}
+
 // Add event listener to close addon when a link is clicked // 
 
+function enableLinks() {
+    var show = document.getElementsByClassName("show");
+
+    let match = false;
+    for (const link of show) {
+        match = false;
+        enabledLinks.forEach(enabled => {
+            if (link.parentElement.id == enabled) {
+                match = true;
+                link.parentElement.style.display = 'block';
+            } else if (!match) {
+                link.parentElement.style.display = 'none';
+            }
+        })
+    };
+
+}
+
+
+
 var links = document.getElementsByClassName("link");
+
+GetLinkList();
 
 function getLinks() {
     var l = links.length;
@@ -34,10 +73,11 @@ function getLinks() {
     }
 }
 
+
 function closeLink() {
     setTimeout(() => {
         window.close();
-    }, 100); 
+    }, 100);
 }
 
 var food;

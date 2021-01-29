@@ -30,7 +30,7 @@ document.querySelector("form").addEventListener("submit", saveOptions);
 let checkboxes = document.querySelectorAll("input[type=checkbox]");
 
 checkboxes.forEach(function (checkbox) {
-  checkbox.addEventListener('change', function () {
+  checkbox.addEventListener('change', () => {
     let enabledC = Array.from(checkboxes)
       .filter(i => i.checked)
       .map(i => i.value);
@@ -45,13 +45,12 @@ function SaveLinks(e) {
 }
 
 function restoreEnabled() {
-
   function setCurrentChoice(result) {
     let enabledO = result.enabledLinks;
     let match = false;
-    checkboxes.forEach(function (checkbox) {
+    checkboxes.forEach((checkbox) => {
       match = false;
-      enabledO.forEach(function (element) {
+      enabledO.forEach((element) => {
         if (checkbox.name == element) {
           checkbox.checked = true;
           match = true;
