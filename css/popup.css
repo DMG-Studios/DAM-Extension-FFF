@@ -19,6 +19,63 @@ body {
     right: 0px;
     top: -5px;
 }
+
+.scrollNews {
+    cursor: pointer;
+    font-size: x-large;
+    width: 40px;
+    height: 100px;
+    margin-top: 10px;
+    opacity: 0;
+
+    z-index: 100;
+    box-sizing: border-box;
+    box-shadow: 0px 30px 40px rgba(0,0,0,.1);
+    transition: opacity 0.5s linear;
+}
+
+
+.scrollNews:hover {
+    animation: NewsBoxHover 0.5s linear;
+    opacity: 0.5;
+}
+
+@keyframes NewsBoxHover {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes NewsBoxHoverOut{
+    0%{
+        opacity: 0.5;
+    }
+    100%{
+        opacity: 0;
+    }
+}
+
+#left {
+    position: absolute;
+    left: 0px;
+    top: 10px;
+    background-image: url('../arrow_s.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+#right {
+    position: absolute;
+    right: 0px;
+    top: 10px;
+    background-image: url('../arrow_r.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
 a {
     font-size: medium;
     color: snow;
@@ -28,7 +85,7 @@ a {
 }
 
 a:hover {
-    animation: hoverAnim 0.s linear;
+    animation: hoverAnim 0.4s linear;
     color: turquoise;
 }
 

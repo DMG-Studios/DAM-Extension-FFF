@@ -8,7 +8,7 @@ let nextCalendarLink = document.getElementById("nextLink");
 
 let arbsHash;
 let fetchLink;
-
+let newsTimeOut = 7600;
 // Get arbs hash set in options // 
 
 function GetHash() {
@@ -167,7 +167,7 @@ function GetNews() {
             setInterval(() => {
                 updateNews(news[x]);
                 x = x < Object.keys(news).length - 1 ? x + 1 : 0;
-            }, 7000);
+            }, newsTimeOut);
         } else {
             latest.textContent = "Couldn't fetch news, we are sorry and working on a fix";
         }
@@ -177,5 +177,24 @@ function GetNews() {
         newsBody.textContent = newsItem.body.substr(0, 150).substr(0, newsItem.body.substr(0, 150).lastIndexOf(" ")) + "\u2026";
         newsLink.href = newsItem.link;
     }
-
+    function newLeft(){
+        newsTimeOut = 0;
+        x = x == 0 ? 4 : x-1;
+        console.log(x);
+        console.log(news[x]);
+        updateNews(news[x]);
+    }
+    
+    function newsRight(){
+        newsTimeOut = 0;
+        x = x == 4 ? 0: x+1
+        console.log(x)
+        updateNews(news[x]);
+    }
+    document.getElementById('left').addEventListener('click',newLeft);
+    document.getElementById('right').addEventListener('click',newsRight);
 }
+
+
+
+
