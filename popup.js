@@ -16,8 +16,6 @@ function settings() {
 }
 optionsLink.addEventListener("click", settings);
 
-
-
 function attachClickEvent() {
     var listLength = divList.length;
     for (var i = 0; i < listLength; i++) {
@@ -44,11 +42,11 @@ function GetLinkList() {
 
 function enableLinks() {
     var show = document.getElementsByClassName("show");
-
     let match = false;
     for (const link of show) {
         match = false;
         enabledLinks.forEach(enabled => {
+            console.log(link.parentElement.parentElement);
             if (link.parentElement.id == enabled) {
                 match = true;
                 link.parentElement.style.display = 'block';
@@ -57,7 +55,6 @@ function enableLinks() {
             }
         })
     };
-
 }
 
 
