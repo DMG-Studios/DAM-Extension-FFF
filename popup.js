@@ -9,7 +9,7 @@ var divList = document.getElementsByClassName("lunchbutton");
 var content = document.getElementById("food");
 
 var optionsLink = document.getElementById("settings");
-var enabledLinks;
+var enabledLinks = [];
 
 function settings() {
     browser.runtime.openOptionsPage();
@@ -26,7 +26,7 @@ function attachClickEvent() {
 function GetLinkList() {
 
     function setCurrentChoice(result) {
-        enabledLinks = result.enabledLinks || "default";
+        enabledLinks = result.enabledLinks || ['asta','itsl','webm','mat','thes','incy','lynd','arbs','skri','finn','libg','offi','perl','tlk'];
         enableLinks();
     }
 
@@ -46,7 +46,6 @@ function enableLinks() {
     for (const link of show) {
         match = false;
         enabledLinks.forEach(enabled => {
-            console.log(link.parentElement.parentElement);
             if (link.parentElement.id == enabled) {
                 match = true;
                 link.parentElement.style.display = 'block';
