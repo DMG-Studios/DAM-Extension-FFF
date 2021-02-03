@@ -50,24 +50,29 @@ let dOpt = {
 var t = 0;
 function GetNextEvent() {
 
-    document.getElementById('leftEvent').addEventListener('click',eventLeft);
-    document.getElementById('rightEvent').addEventListener('click',eventRight);
+    document.getElementById('leftEvent').addEventListener('click', eventLeft);
+    document.getElementById('rightEvent').addEventListener('click', eventRight);
 
-    function eventLeft(){
-        t = t == 0 ? 0 : t-1;
+    function eventLeft() {
+        t = t == 0 ? 0 : t - 1;
         fillCalendar(t);
     }
-    
-    function eventRight(){
-        t = t == calendarEvents.length-1 ? 0: t+1
+
+    function eventRight() {
+        t = t == calendarEvents.length - 1 ? 0 : t + 1
         fillCalendar(t);
     }
-    
+
     let calendarEvents;
     // Sub function for fetching // 
     function getCalendar() {
         fetch(fetchLink)
             .then((r) => r.json())
+            .catch((e) => {
+                nextCalendarComment.textContent = "Something wen't horribly wrong. Atleast 5 highly trained tölks have been assigned to fix this, please check your settings"
+                nextCalendarLink.href = "https://www.dinmamma.fi"
+                nextCalendarLink.textContent = "DMG Studios Appologizes"
+            })
             .then((r) => {
                 callCalendar(r);
             });
@@ -81,8 +86,8 @@ function GetNextEvent() {
 
     function fillCalendar(t) {
         // Check that CalendarEvents have been fetched before populating, else proceed with error message // 
-        
-        const sortedCalendar = calendarEvents.sort((a,b) => new Date(a.startTime) - new Date(b.startTime));
+
+        const sortedCalendar = calendarEvents.sort((a, b) => new Date(a.startTime) - new Date(b.startTime));
         if (calendarEvents) {
 
 
@@ -111,11 +116,11 @@ function GetNextEvent() {
             });
 
             // if result doesn't return a link set it to ARBS 
-            
+
             if (link == undefined) {
                 link = "https://famnen.arcada.fi/arbs/"
             }
-            
+
             // If no room is booked assign to online // 
 
             if (nextEventRoom == "") {
@@ -127,26 +132,21 @@ function GetNextEvent() {
 
             // Assign time, comment and link to calendar frame // 
             if (nextEventStart.length == 8) {
-                nextCalendarTime.textContent = new Date(0, 0, 0, nextEventStart.substr(0, 2), nextEventStart.substr(3, 2), 0).toLocaleTimeString('fi-Fi', dOpt) + " - " + new Date(0, 0, 0, nextEventEnd.substr(0, 2), nextEventEnd.substr(3, 2), 0).toLocaleTimeString('fi-Fi',dOpt)
+                nextCalendarTime.textContent = new Date(0, 0, 0, nextEventStart.substr(0, 2), nextEventStart.substr(3, 2), 0).toLocaleTimeString('fi-Fi', dOpt) + " - " + new Date(0, 0, 0, nextEventEnd.substr(0, 2), nextEventEnd.substr(3, 2), 0).toLocaleTimeString('fi-Fi', dOpt)
             } else {
                 nextCalendarTime.textContent = new Date(nextEventStart).toLocaleDateString('fi-FI',) + " " + new Date(nextEventStart).toLocaleTimeString('fi-FI', dOpt) + " - " + new Date(nextEventEnd).toLocaleTimeString('fi-FI', dOpt);
             }
 
             // If user hasn't changed from default show comment with settings notifi//
-            
-            if(arbsHash == "default"){
-                nextCalendarComment.textContent = "Please add your ARBS link in settings from the cog in the top right corner to see your own schedule."    
-            }else{
+
+            if (arbsHash == "default") {
+                nextCalendarComment.textContent = "Please add your ARBS link in settings from the cog in the top right corner to see your own schedule."
+            } else {
                 comment = comment.replace(/[^\wåäö\s]/gi, '');
                 nextCalendarComment.textContent = comment;
             }
             nextCalendarLink.href = link;
 
-            // if there wasn't a response assign error message // 
-        } else {
-            nextCalendarComment.textContent = "Something wen't horribly wrong. Atleast 5 highly trained tölks have been assigned to fix this"
-            nextCalendarLink.href = "www.dinmamma.fi"
-            nextCalendarLink.textContent = "DMG Studios Appologizes"
         }
     }
 }
@@ -192,19 +192,19 @@ function GetNews() {
         newsBody.textContent = newsItem.body.substr(0, 150).substr(0, newsItem.body.substr(0, 150).lastIndexOf(" ")) + "\u2026";
         newsLink.href = newsItem.link;
     }
-    function newLeft(){
+    function newLeft() {
         newsTimeOut = 0;
-        x = x == 0 ? 4 : x-1;
+        x = x == 0 ? 4 : x - 1;
         updateNews(news[x]);
     }
-    
-    function newsRight(){
+
+    function newsRight() {
         newsTimeOut = 0;
-        x = x == 4 ? 0: x+1
+        x = x == 4 ? 0 : x + 1
         updateNews(news[x]);
     }
-    document.getElementById('left').addEventListener('click',newLeft);
-    document.getElementById('right').addEventListener('click',newsRight);
+    document.getElementById('left').addEventListener('click', newLeft);
+    document.getElementById('right').addEventListener('click', newsRight);
 }
 
 
