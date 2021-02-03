@@ -11,6 +11,8 @@ var content = document.getElementById("food");
 var optionsLink = document.getElementById("settings");
 var enabledLinks = [];
 
+
+
 function settings() {
     browser.runtime.openOptionsPage();
 }
