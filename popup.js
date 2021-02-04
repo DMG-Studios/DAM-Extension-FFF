@@ -26,7 +26,7 @@ function attachClickEvent() {
 function GetLinkList() {
 
     function setCurrentChoice(result) {
-        enabledLinks = result.enabledLinks || ['asta', 'itsl', 'webm', 'mat', 'thes', 'incy', 'lynd', 'arbs', 'skri', 'finn', 'libg', 'offi', 'perl', 'tlk'];
+        enabledLinks = result.enabledLinks || ['asta', 'itsl', 'webm', 'mat', 'thes', 'incy', 'lynd', 'arbs', 'skri', 'finn', 'libg', 'offi', 'perl', 'tlk','ask','hans','hosk','star'];
         enableLinks();
     }
 
