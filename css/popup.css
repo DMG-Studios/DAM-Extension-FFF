@@ -6,10 +6,10 @@ body {
 }
 
 #logoholder {
-    background-image: url("../dam_200.png");
+    background-image: url("../dam_black-white.png");
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 35%;
+    background-size: contain;
 }
 
 #settings {
@@ -213,6 +213,7 @@ h1 {
     justify-content: center;
     flex-direction: column;
     align-items: center;
+
 }
 
 .linkholder h3 {
