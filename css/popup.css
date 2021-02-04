@@ -5,37 +5,37 @@ body {
     scrollbar-width: thin;
 }
 
-.tooltip {
-    position: relative;
-    display: inline-block;
-    right: 0px;
-    bottom: 0px;
-}
-
-/* Tooltip text */
-
-.tooltip .tooltiptext {
-    visibility: hidden;
-    width: 50px;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    padding: 5px 0;
-    border-radius: 6px;
-    position: absolute;
-    z-index: 0;
-    opacity: 1;
-}
-
-.tooltip:hover .tooltiptext {
-    visibility: visible;
-}
 
 #logoholder {
     background-image: url("../dam_black-white.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
+}
+
+#leftEvent {
+    position: absolute;
+    left: 0px;
+    bottom: 0px;
+    background-image: url('../arrow_s.png');
+    background-repeat: no-repeat;
+    background-clip: content-box;
+    background-size: 20%;
+    background-position-x: center;
+    background-position-y: bottom;
+}
+
+#rightEvent {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    background-image: url('../arrow_r.png');
+    background-repeat: no-repeat;
+    background-clip: content-box;
+    background-size: 20%;
+    background-position-x: center;
+    background-position-y: bottom;
+    z-index: 0;
 }
 
 #settings {
@@ -81,30 +81,7 @@ body {
     }
 }
 
-#leftEvent {
-    position: absolute;
-    left: 0px;
-    bottom: 0px;
-    background-image: url('../arrow_s.png');
-    background-repeat: no-repeat;
-    background-clip: content-box;
-    background-size: 20%;
-    background-position-x: center;
-    background-position-y: bottom;
-}
 
-#rightEvent {
-    position: absolute;
-    right: 0px;
-    bottom: 0px;
-    background-image: url('../arrow_r.png');
-    background-repeat: no-repeat;
-    background-clip: content-box;
-    background-size: 20%;
-    background-position-x: center;
-    background-position-y: bottom;
-    z-index: 0;
-}
 
 #left {
     position: absolute;
