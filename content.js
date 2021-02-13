@@ -8,7 +8,7 @@ let nextCalendarLink = document.getElementById("nextLink");
 
 let arbsHash;
 let fetchLink;
-let newsTimeOut = 7600;
+let newsTimeOut = 2000;
 // Get arbs hash set in options // 
 
 function GetHash() {
@@ -33,12 +33,12 @@ GetHash();
 // Set Fetch link composed of api address and your ARBS link // 
 function call() {
     if (/\s/.test(arbsHash)) {
-        let fName = arbsHash.substr(0,arbsHash.indexOf(' '));
-        let lName = arbsHash.substr(arbsHash.indexOf(' ')+1);
+        let fName = arbsHash.substr(0, arbsHash.indexOf(' '));
+        let lName = arbsHash.substr(arbsHash.indexOf(' ') + 1);
         let nameStr = fName + "+" + lName;
         fetchLink = 'https://api.cornern.tlk.fi/dam-api/teacher?name=' + nameStr;
-    }else{
-    fetchLink = 'https://api.cornern.tlk.fi/dam-api/calendar?link=' + arbsHash;
+    } else {
+        fetchLink = 'https://api.cornern.tlk.fi/dam-api/calendar?link=' + arbsHash;
     }
     GetNextEvent();
     GetNews();
@@ -157,10 +157,16 @@ function GetNextEvent() {
         }
     }
 }
+
+// Get events from api // 
+
+
+
 // Get news from api //
 
 function GetNews() {
     let news;
+    let events;
     let latest = document.getElementById('latest');
     let newsBody = document.getElementById('newsBody');
     let newsLink = document.getElementById('newsLink');
@@ -168,48 +174,105 @@ function GetNews() {
         fetch('https://api.cornern.tlk.fi/dam-api/news')
             .then((r) => r.json())
             .then((r) => {
-                callNews(r);
+                SetNews(r);
+            }).then(() => {
+                GetEvents();
             });
     }
-    function callNews(r) {
+    function GetEvents() {
+        fetch('https://api.cornern.tlk.fi/dam-api/events')
+            .then((r) => r.json())
+            .then((r) => {
+                SetEvents(r)
+            }).then(() => {
+                callNews();
+            });
+    }
+
+    function SetEvents(r) {
+        events = r;
+    }
+
+    function SetNews(r) {
         news = r;
-        // fillNews();
+    }
+    function callNews() {
         updateNews(news[0]);
         loopNews();
     }
-
     getNewsArticle();
 
     var x = 0
-
+    var y = 0
+    var NewsTime;
     // Function to loop news indefinetly // 
     function loopNews() {
-
-        if (news) {
-            setInterval(() => {
-                updateNews(news[x]);
-                x = x < Object.keys(news).length - 1 ? x + 1 : 0;
+        if (Object.keys(news).length > 1) {
+            NewsTime = setInterval(() => {
+                if (x == Object.keys(news).length - 1) {
+                    if (y == Object.keys(events).length) {
+                        x = 0;
+                        y = 0;
+                    } else {
+                        updateNews(events[y])
+                        y = y < Object.keys(events).length ? y + 1 : 0;
+                    }
+                } else {
+                    updateNews(news[x]);
+                    x = x < Object.keys(news).length - 1 ? x + 1 : 0;
+                }
             }, newsTimeOut);
         } else {
             latest.textContent = "Couldn't fetch news, we are sorry and working on a fix";
         }
     }
+    var BoolEvents = false;
     function updateNews(newsItem) {
+        if(newsItem.start){
+            BoolEvents = true;
+        }else{
+            BoolEvents = false;
+        }
+        console.log(BoolEvents);
         latest.textContent = newsItem.heading;
         newsBody.textContent = newsItem.body.substr(0, 150).substr(0, newsItem.body.substr(0, 150).lastIndexOf(" ")) + "\u2026";
         newsLink.href = newsItem.link;
     }
     function newLeft() {
-        newsTimeOut = 0;
-        x = x == 0 ? 4 : x - 1;
-        updateNews(news[x]);
+        window.clearTimeout(NewsTime);
+        if (x == 0 && BoolEvents == false) {
+            y = Object.keys(events).length - 1;
+            updateNews(events[y]);
+        }else if(x==0 && y == 0 && BoolEvents == true){
+            x = Object.keys(news).length -1;
+            updateNews(news[x]);
+        }else if(BoolEvents == true){
+            y = y == 0 ? Object.keys(events).length - 1 : y - 1;
+            updateNews(events[y])
+        }else{
+            x = x == 0 ? Object.keys(news).length - 1 : x - 1;
+            updateNews(news[x]);
+        }
     }
 
     function newsRight() {
-        newsTimeOut = 0;
-        x = x == 4 ? 0 : x + 1
-        updateNews(news[x]);
+        window.clearTimeout(NewsTime);
+        if (x == Object.keys(news).length -1 && BoolEvents == false) {
+            y = 0;
+            updateNews(events[y]);
+        }else if(x==4 && BoolEvents == true && y < Object.keys(events).length -1){
+            y = y < Object.keys(events).length ? y +1 : 0;
+            updateNews(events[y]);
+        }else if(BoolEvents == true && y == Object.keys(events).length -1){
+            y = 0;
+            x = 0;
+            updateNews(news[0])
+        }else{
+            x = x < Object.keys(news).length - 1 ? x+1 : 0;
+            updateNews(news[x]);
+        }
     }
+
     document.getElementById('left').addEventListener('click', newLeft);
     document.getElementById('right').addEventListener('click', newsRight);
 }
