@@ -8,7 +8,7 @@ let nextCalendarLink = document.getElementById("nextLink");
 
 let arbsHash;
 let fetchLink;
-let newsTimeOut = 2000;
+let newsTimeOut = 7600;
 // Get arbs hash set in options // 
 
 function GetHash() {
@@ -170,6 +170,7 @@ function GetNews() {
     let latest = document.getElementById('latest');
     let newsBody = document.getElementById('newsBody');
     let newsLink = document.getElementById('newsLink');
+
     function getNewsArticle() {
         fetch('https://api.cornern.tlk.fi/dam-api/news')
             .then((r) => r.json())
@@ -179,6 +180,7 @@ function GetNews() {
                 GetEvents();
             });
     }
+
     function GetEvents() {
         fetch('https://api.cornern.tlk.fi/dam-api/events')
             .then((r) => r.json())
@@ -190,6 +192,9 @@ function GetNews() {
     }
 
     function SetEvents(r) {
+        //let startT = new Date(r[0].start);
+
+        //console.log(startT);
         events = r;
     }
 
@@ -197,7 +202,7 @@ function GetNews() {
         news = r;
     }
     function callNews() {
-        updateNews(news[0]);
+        updateNews(events[0]);
         loopNews();
     }
     getNewsArticle();
@@ -205,6 +210,7 @@ function GetNews() {
     var x = 0
     var y = 0
     var NewsTime;
+
     // Function to loop news indefinetly // 
     function loopNews() {
         if (Object.keys(news).length > 1) {
@@ -228,12 +234,11 @@ function GetNews() {
     }
     var BoolEvents = false;
     function updateNews(newsItem) {
-        if(newsItem.start){
+        if (newsItem.start) {
             BoolEvents = true;
-        }else{
+        } else {
             BoolEvents = false;
         }
-        console.log(BoolEvents);
         latest.textContent = newsItem.heading;
         newsBody.textContent = newsItem.body.substr(0, 150).substr(0, newsItem.body.substr(0, 150).lastIndexOf(" ")) + "\u2026";
         newsLink.href = newsItem.link;
@@ -243,13 +248,13 @@ function GetNews() {
         if (x == 0 && BoolEvents == false) {
             y = Object.keys(events).length - 1;
             updateNews(events[y]);
-        }else if(x==0 && y == 0 && BoolEvents == true){
-            x = Object.keys(news).length -1;
+        } else if (y == 0 && BoolEvents == true) {
+            x = Object.keys(news).length - 1;
             updateNews(news[x]);
-        }else if(BoolEvents == true){
+        } else if (BoolEvents == true) {
             y = y == 0 ? Object.keys(events).length - 1 : y - 1;
             updateNews(events[y])
-        }else{
+        } else {
             x = x == 0 ? Object.keys(news).length - 1 : x - 1;
             updateNews(news[x]);
         }
@@ -257,18 +262,18 @@ function GetNews() {
 
     function newsRight() {
         window.clearTimeout(NewsTime);
-        if (x == Object.keys(news).length -1 && BoolEvents == false) {
+        if (x == Object.keys(news).length - 1 && BoolEvents == false) {
             y = 0;
             updateNews(events[y]);
-        }else if(x==4 && BoolEvents == true && y < Object.keys(events).length -1){
-            y = y < Object.keys(events).length ? y +1 : 0;
+        } else if (x == 4 && BoolEvents == true && y < Object.keys(events).length - 1) {
+            y = y < Object.keys(events).length ? y + 1 : 0;
             updateNews(events[y]);
-        }else if(BoolEvents == true && y == Object.keys(events).length -1){
+        } else if (BoolEvents == true && y == Object.keys(events).length - 1) {
             y = 0;
             x = 0;
-            updateNews(news[0])
-        }else{
-            x = x < Object.keys(news).length - 1 ? x+1 : 0;
+            updateNews(news[x])
+        } else {
+            x = x < Object.keys(news).length - 1 ? x + 1 : 0;
             updateNews(news[x]);
         }
     }
