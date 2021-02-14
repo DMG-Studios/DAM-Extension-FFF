@@ -6,12 +6,12 @@ body {
 
 #labels{
     font-size: large;
-    color: white;
+    color: snow;
     padding: 0;
     margin: 0;
 }
 #guide{
-    color: white;
+    color: whitesmoke;
     word-wrap: break-word;
     max-width: 500px;
 }
@@ -36,7 +36,7 @@ body {
     flex-direction: column;
     padding: 10px;
     margin: 10px;
-    color:snow;
+    color:whitesmoke;
 }
 h3{
     color: snow;
