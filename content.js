@@ -192,9 +192,6 @@ function GetNews() {
     }
 
     function SetEvents(r) {
-        //let startT = new Date(r[0].start);
-
-        //console.log(startT);
         events = r;
     }
 
@@ -202,86 +199,45 @@ function GetNews() {
         news = r;
     }
     function callNews() {
+        
+        for(let i in news){
+            events.push(news[i]);
+        }
         updateNews(events[0]);
         loopNews();
     }
     getNewsArticle();
 
     var x = 0
-    var y = 0
-    var NewsTime;
-
     // Function to loop news indefinetly // 
     function loopNews() {
-        if (Object.keys(news).length > 1) {
-            NewsTime = setInterval(() => {
-                if (x == Object.keys(news).length - 1) {
-                    if (y == Object.keys(events).length) {
-                        x = 0;
-                        y = 0;
-                    } else {
-                        updateNews(events[y])
-                        y = y < Object.keys(events).length ? y + 1 : 0;
-                    }
-                } else {
-                    updateNews(news[x]);
-                    x = x < Object.keys(news).length - 1 ? x + 1 : 0;
-                }
+
+        if (Object.keys(events).length > 1) {
+            setInterval(() => {
+                updateNews(events[x]);
+                x = x < Object.keys(events).length - 1 ? x + 1 : 0;
             }, newsTimeOut);
         } else {
             latest.textContent = "Couldn't fetch news, we are sorry and working on a fix";
         }
     }
-    var BoolEvents = false;
     function updateNews(newsItem) {
-        if (newsItem.start) {
-            BoolEvents = true;
-        } else {
-            BoolEvents = false;
-        }
         latest.textContent = newsItem.heading;
         newsBody.textContent = newsItem.body.substr(0, 150).substr(0, newsItem.body.substr(0, 150).lastIndexOf(" ")) + "\u2026";
         newsLink.href = newsItem.link;
     }
     function newLeft() {
-        window.clearTimeout(NewsTime);
-        if (x == 0 && BoolEvents == false) {
-            y = Object.keys(events).length - 1;
-            updateNews(events[y]);
-        } else if (y == 0 && BoolEvents == true) {
-            x = Object.keys(news).length - 1;
-            updateNews(news[x]);
-        } else if (BoolEvents == true) {
-            y = y == 0 ? Object.keys(events).length - 1 : y - 1;
-            updateNews(events[y])
-        } else {
-            x = x == 0 ? Object.keys(news).length - 1 : x - 1;
-            updateNews(news[x]);
-        }
+        newsTimeOut = 0;
+        x = x == 0 ? 4 : x - 1;
+        updateNews(events[x]);
     }
 
     function newsRight() {
-        window.clearTimeout(NewsTime);
-        if (x == Object.keys(news).length - 1 && BoolEvents == false) {
-            y = 0;
-            updateNews(events[y]);
-        } else if (x == 4 && BoolEvents == true && y < Object.keys(events).length - 1) {
-            y = y < Object.keys(events).length ? y + 1 : 0;
-            updateNews(events[y]);
-        } else if (BoolEvents == true && y == Object.keys(events).length - 1) {
-            y = 0;
-            x = 0;
-            updateNews(news[x])
-        } else {
-            x = x < Object.keys(news).length - 1 ? x + 1 : 0;
-            updateNews(news[x]);
-        }
+        newsTimeOut = 0;
+        x = x == 4 ? 0 : x + 1
+        updateNews(events[x]);
     }
 
     document.getElementById('left').addEventListener('click', newLeft);
     document.getElementById('right').addEventListener('click', newsRight);
 }
-
-
-
-
