@@ -1,37 +1,35 @@
 
-/// Content JS for Calendar next up and News API Connections // 
+// Content JS contains the external data for calendar, news and events //
+// Everything has to be called with functions do to how Extensions work // 
 
 let nextCalendar = document.getElementById("nextCal");
 let nextCalendarTime = document.getElementById("nextTime");
 let nextCalendarComment = document.getElementById("nextComment");
 let nextCalendarLink = document.getElementById("nextLink");
-
 let arbsHash;
 let fetchLink;
 let newsTimeOut = 7600;
-// Get arbs hash set in options // 
+
+// Get arbs hash from browser storage and store it in a variable // 
 
 function GetHash() {
-
     function setCurrentChoice(result) {
         arbsHash = result.arbs || "default";
         call();
     }
-
     function onError(error) {
         console.log(`Error: ${error}`);
     }
-
     let getting = browser.storage.sync.get("arbs");
     getting.then(setCurrentChoice, onError);
 }
 
 // Call Get hash //
-
 GetHash();
 
 // Set Fetch link composed of api address and your ARBS link // 
 function call() {
+    // Check if arbshash is a link or a name and proceed accordingly // 
     if (/\s/.test(arbsHash)) {
         let fName = arbsHash.substr(0, arbsHash.indexOf(' '));
         let lName = arbsHash.substr(arbsHash.indexOf(' ') + 1);
@@ -44,10 +42,7 @@ function call() {
     GetNews();
 }
 
-
-
 // Options for showing time without seconds // 
-
 let dOpt = {
     hour: '2-digit',
     minute: '2-digit',
@@ -55,23 +50,24 @@ let dOpt = {
 
 // Function to fetch and parse response from calendar api // 
 var t = 0;
+let calendarEvents;
+
 function GetNextEvent() {
 
     document.getElementById('leftEvent').addEventListener('click', eventLeft);
     document.getElementById('rightEvent').addEventListener('click', eventRight);
 
+    // Scroll calendar events backwards and forwards 
     function eventLeft() {
         t = t == 0 ? 0 : t - 1;
         fillCalendar(t);
     }
-
     function eventRight() {
         t = t == calendarEvents.length - 1 ? 0 : t + 1
         fillCalendar(t);
     }
 
-    let calendarEvents;
-    // Sub function for fetching // 
+    // Sub function for fetching calendar content // 
     function getCalendar() {
         fetch(fetchLink)
             .then((r) => r.json())
@@ -89,6 +85,7 @@ function GetNextEvent() {
         fillCalendar(t);
     }
 
+    // call getcalendar (duh)
     getCalendar();
 
     function fillCalendar(t) {
@@ -96,24 +93,21 @@ function GetNextEvent() {
 
         const sortedCalendar = calendarEvents.sort((a, b) => new Date(a.startTime) - new Date(b.startTime));
         if (calendarEvents) {
-
-
+            // Split up the incoming calendar event into smaller parts for handling // 
             let nextEventName = sortedCalendar[t].name;
             let nextEventComment = sortedCalendar[t].comment;
             let nextEventStart = sortedCalendar[t].startTime;
             let nextEventEnd = sortedCalendar[t].endTime;
             let nextEventRoom = sortedCalendar[t].room;
-
-            // Regexp incomming comment for a http/s link to append to Link to lecture // 
-
-            let nextLink = nextEventComment.split(/(https?:\/\/[^\s]+)/g);
             // Variables to split comment into link and commentEntry // 
 
             let link;
-
             let comment;
+           
+            // Regexp incomming comment for a http/s link to append to Link to lecture // 
+            let nextLink = nextEventComment.split(/(https?:\/\/[^\s]+)/g);
 
-            // Forloop to assing link and comment // 
+            // Forloop to passing link and comment // 
             nextLink.forEach(element => {
                 if (element.includes('http')) {
                     link = element;
@@ -153,24 +147,29 @@ function GetNextEvent() {
                 nextCalendarComment.textContent = comment;
             }
             nextCalendarLink.href = link;
-
         }
     }
 }
 
-// Get events from api // 
-
-
-
 // Get news from api //
 
 function GetNews() {
+    // Initialize global variables for news 
     let news;
     let events;
+    var newsTimer;
+    var x = 0
+
+    // Get html elements 
     let latest = document.getElementById('latest');
     let newsBody = document.getElementById('newsBody');
     let newsLink = document.getElementById('newsLink');
 
+    // This part is messy but works.
+    // Due to having to call 2 API:s they chain together to not cause a situation where one part hasn't loaded before showing
+    
+    // Call News API, if news succeed call events and set all to variables
+    
     function getNewsArticle() {
         fetch('https://api.cornern.tlk.fi/dam-api/news')
             .then((r) => r.json())
@@ -178,6 +177,8 @@ function GetNews() {
                 SetNews(r);
             }).then(() => {
                 GetEvents();
+            }).catch((error) => {
+                console.error('Error:', error)
             });
     }
 
@@ -188,7 +189,9 @@ function GetNews() {
                 SetEvents(r)
             }).then(() => {
                 callNews();
-            });
+            }).catch((error) => {
+                console.error('Error:', error)
+            });;
     }
 
     function SetEvents(r) {
@@ -198,22 +201,21 @@ function GetNews() {
     function SetNews(r) {
         news = r;
     }
+
     function callNews() {
-        
         for(let i in news){
             events.push(news[i]);
         }
         updateNews(events[0]);
         loopNews();
     }
+
     getNewsArticle();
 
-    var x = 0
-    // Function to loop news indefinetly // 
+    // Function that loops news based on X value, 
     function loopNews() {
-
         if (Object.keys(events).length > 1) {
-            setInterval(() => {
+            newsTimer = setInterval(() => {
                 updateNews(events[x]);
                 x = x < Object.keys(events).length - 1 ? x + 1 : 0;
             }, newsTimeOut);
@@ -221,23 +223,27 @@ function GetNews() {
             latest.textContent = "Couldn't fetch news, we are sorry and working on a fix";
         }
     }
+
+    // General function to update news, same update function is used for interval and manual scrolling
     function updateNews(newsItem) {
         latest.textContent = newsItem.heading;
         newsBody.textContent = newsItem.body.substr(0, 150).substr(0, newsItem.body.substr(0, 150).lastIndexOf(" ")) + "\u2026";
         newsLink.href = newsItem.link;
     }
+
+    // Functions that scroll news left and right, if user it at first goes to last and vice versa.
     function newLeft() {
-        newsTimeOut = 0;
-        x = x == 0 ? 4 : x - 1;
+        x = x == 0 ? Object.keys(events).length-1 : x - 1;
         updateNews(events[x]);
+        clearInterval(newsTimer);
     }
-
     function newsRight() {
-        newsTimeOut = 0;
-        x = x == 4 ? 0 : x + 1
+        x = x == Object.keys(events).length-1 ? 0 : x + 1
         updateNews(events[x]);
+        clearInterval(newsTimer);
     }
 
+    // Add event listeners to buttons for news feed scrolling
     document.getElementById('left').addEventListener('click', newLeft);
     document.getElementById('right').addEventListener('click', newsRight);
 }
