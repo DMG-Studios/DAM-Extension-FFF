@@ -1,4 +1,3 @@
-
 // Content JS contains the external data for calendar, news and events //
 // Everything has to be called with functions do to how Extensions work // 
 
@@ -6,6 +5,7 @@ let nextCalendar = document.getElementById("nextCal");
 let nextCalendarTime = document.getElementById("nextTime");
 let nextCalendarComment = document.getElementById("nextComment");
 let nextCalendarLink = document.getElementById("nextLink");
+
 let arbsHash;
 let fetchLink;
 let newsTimeOut = 7600;
@@ -101,8 +101,8 @@ function GetNextEvent() {
             let nextEventRoom = sortedCalendar[t].room;
             // Variables to split comment into link and commentEntry // 
 
-            let link;
-            let comment;
+            let link = "";
+            let comment = "";
            
             // Regexp incomming comment for a http/s link to append to Link to lecture // 
             let nextLink = nextEventComment.split(/(https?:\/\/[^\s]+)/g);
@@ -112,13 +112,13 @@ function GetNextEvent() {
                 if (element.includes('http')) {
                     link = element;
                 } else if (element.length > 1) {
-                    comment = element;
+                    comment = element.substr(0, element.indexOf("Join by"));
                 }
             });
 
             // if result doesn't return a link set it to ARBS 
 
-            if (link == undefined) {
+            if (link == "") {
                 link = "https://famnen.arcada.fi/arbs/"
             }
 
@@ -142,8 +142,10 @@ function GetNextEvent() {
 
             if (arbsHash == "default") {
                 nextCalendarComment.textContent = "Please add your ARBS link in settings from the cog in the top right corner to see your own schedule."
-            } else if(comment) {
+            } else if(comment != "") {
                 comment = comment.replace(/[^\wåäö\s]/gi, '');
+                nextCalendarComment.textContent = comment;
+            }else{
                 nextCalendarComment.textContent = comment;
             }
             nextCalendarLink.href = link;
