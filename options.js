@@ -23,7 +23,8 @@ function restoreOptions() {
   getting.then(setCurrentChoice, onError);
 }
 
-// Call functions to restore options when DOM has loaded 
+// Call functions to restore options when DOM has loaded //
+// Restore options from storage when opening options // 
 document.addEventListener("DOMContentLoaded", restoreOptions);
 document.addEventListener("DOMContentLoaded", restoreEnabled);
 document.querySelector("form").addEventListener("submit", saveOptions);
